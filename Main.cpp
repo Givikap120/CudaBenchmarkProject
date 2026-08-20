@@ -25,9 +25,22 @@ int main()
 	BenchmarkManager benchmarkManager(1000, 1024, 1024);
 	std::vector<std::unique_ptr<MatrixTransposer>> transposers = getTransposers();
 
+	if (transposers.empty())
+		return 1;
+
 	// Warm up
 	for (auto& transposer : transposers)
 		benchmarkManager.runRaw(transposer.get(), false);
+
+	const Matrix& referenceResult = transposers[0]->getResult();
+
+	for (int i = 1; i < transposers.size(); ++i)
+	{
+		const Matrix& result = transposers[i]->getResult();
+
+		if (result != referenceResult)
+			std::cout << "Results do not match for " << transposers[i]->getName() << "!\n";
+	}
 
 	std::cout << "Raw transposition:\n";
 
