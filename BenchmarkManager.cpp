@@ -1,4 +1,5 @@
 #include "BenchmarkManager.h"
+#include "MatrixTransposer.h"
 
 #include <random>
 
@@ -20,10 +21,26 @@ Matrix BenchmarkManager::generateMatrix(size_t rows, size_t cols)
 
 double BenchmarkManager::runRaw(MatrixTransposer& transposer)
 {
-	return 0;
+	transposer.copyInput(matrix);
+	double time = transposer.getTime();
+
+	for (int i = 0; i < iterations; ++i)
+	{
+		transposer.transpose();
+	}
+
+	return (transposer.getTime() - time) / iterations;
 }
 
 double BenchmarkManager::runWithCopy(MatrixTransposer& transposer)
 {
-	return 0;
+	double time = transposer.getTime();
+
+	for (int i = 0; i < iterations; ++i)
+	{
+		transposer.copyInput(matrix);
+		transposer.transpose();
+	}
+
+	return (transposer.getTime() - time) / iterations;
 }

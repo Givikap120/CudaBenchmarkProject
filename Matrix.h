@@ -8,7 +8,10 @@ struct Matrix {
 	std::vector<float> data;
 
 	Matrix(int r, int c) : rows(r), cols(c), data(r* c)
-	{	}
+	{}
+
+	Matrix() : rows(0), cols(0)
+	{}
 
 	float& operator()(size_t r, size_t c) {
 		return data[r * cols + c];
