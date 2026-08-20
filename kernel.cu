@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+
 #include "BenchmarkManager.h"
 #include "MatrixTransposer.h"
 
@@ -19,6 +20,17 @@ std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 	return result;
 }
 
+void printTransposerInfo(const MatrixTransposer* transposer, double executionTime)
+{
+	std::cout << transposer->getName() << ": " << executionTime << " ms";
+
+	auto cudaTransposer = dynamic_cast<const CudaTransposer*>(transposer);
+	if (cudaTransposer)
+		std::cout << " (kernel time: " << cudaTransposer->getKernelTime() << " ms)";
+
+	std::cout << '\n';
+}
+
 int main()
 {
 	BenchmarkManager benchmarkManager(100, 1024, 1024);
@@ -33,7 +45,7 @@ int main()
 	for (auto& transposer : transposers)
 	{
 		double time = benchmarkManager.runRaw(*transposer);
-		std::cout << transposer->getName() << ": " << time << " ms\n";
+		printTransposerInfo(transposer.get(), time);
 	}
 
 	std::cout << "\nCopied transposition:\n";
@@ -41,7 +53,7 @@ int main()
 	for (auto& transposer : transposers)
 	{
 		double time = benchmarkManager.runWithCopy(*transposer);
-		std::cout << transposer->getName() << ": " << time << " ms\n";
+		printTransposerInfo(transposer.get(), time);
 	}
 
     return 0;

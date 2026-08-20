@@ -5,8 +5,8 @@ CudaTransposer::CudaTransposer(const std::string& name, size_t threadsPerBlock) 
 {
 	try 
 	{
-// 		cudaCheck(cudaEventCreate(&startEvent));
-// 		cudaCheck(cudaEventCreate(&stopEvent));
+		cudaCheck(cudaEventCreate(&startEvent));
+		cudaCheck(cudaEventCreate(&stopEvent));
 		cudaCheck(cudaStreamCreate(&stream));
 	}
 	catch (...)
@@ -48,12 +48,15 @@ void CudaTransposer::transpose()
 {
 	size_t matrixSize = output.data.size() * sizeof(float);
 
-// 	cudaCheck(cudaEventRecord(startEvent, stream));
+	cudaCheck(cudaEventRecord(startEvent, stream));
+
 	launchKernel();
 	cudaCheck(cudaGetLastError());
-// 	cudaCheck(cudaEventRecord(stopEvent, stream));
-// 	cudaCheck(cudaEventSynchronize(stopEvent));
-// 	cudaCheck(cudaEventElapsedTime(&kernelTime, startEvent, stopEvent));
+
+	cudaCheck(cudaEventRecord(stopEvent, stream));
+	cudaCheck(cudaEventSynchronize(stopEvent));
+	cudaCheck(cudaEventElapsedTime(&kernelTime, startEvent, stopEvent));
+
 	cudaCheck(cudaMemcpyAsync(output.data.data(), d_output, matrixSize, cudaMemcpyDeviceToHost, stream));
 }
 
@@ -72,8 +75,8 @@ void CudaTransposer::cudaCheck(cudaError_t result)
 
 void CudaTransposer::dispose()
 {
-// 	if (startEvent) cudaEventDestroy(startEvent);
-// 	if (stopEvent) cudaEventDestroy(stopEvent);
+	if (startEvent) cudaEventDestroy(startEvent);
+	if (stopEvent) cudaEventDestroy(stopEvent);
 	if (stream) cudaStreamDestroy(stream);
 	if (d_input) cudaFree(d_input);
 	if (d_output) cudaFree(d_output);

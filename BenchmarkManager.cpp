@@ -2,6 +2,7 @@
 #include "MatrixTransposer.h"
 
 #include <random>
+#include <chrono>
 
 BenchmarkManager::BenchmarkManager(int iterations, size_t rows, size_t cols) : iterations(iterations), matrix(generateMatrix(rows, cols))
 {}
@@ -19,11 +20,18 @@ Matrix BenchmarkManager::generateMatrix(size_t rows, size_t cols)
 	return matrix;
 }
 
+static double getTime()
+{
+	auto time = std::chrono::high_resolution_clock::now();
+	return std::chrono::duration<double, std::milli>(time.time_since_epoch()).count();
+}
+
 double BenchmarkManager::runRaw(MatrixTransposer& transposer)
 {
 	transposer.copyInput(matrix);
 	transposer.synchronize();
-	double time = transposer.getTime();
+
+	double time = getTime();
 
 	for (int i = 0; i < iterations; ++i)
 	{
@@ -31,12 +39,12 @@ double BenchmarkManager::runRaw(MatrixTransposer& transposer)
 		transposer.synchronize();
 	}
 
-	return (transposer.getTime() - time) / iterations;
+	return (getTime() - time) / iterations;
 }
 
 double BenchmarkManager::runWithCopy(MatrixTransposer& transposer)
 {
-	double time = transposer.getTime();
+	double time = getTime();
 
 	for (int i = 0; i < iterations; ++i)
 	{
@@ -45,5 +53,5 @@ double BenchmarkManager::runWithCopy(MatrixTransposer& transposer)
 		transposer.synchronize();
 	}
 
-	return (transposer.getTime() - time) / iterations;
+	return (getTime() - time) / iterations;
 }

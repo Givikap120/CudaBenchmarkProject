@@ -5,8 +5,8 @@
 
 class CudaTransposer : public MatrixTransposer
 {
-// 	float kernelTime = 0.0f;
-// 	cudaEvent_t startEvent{}, stopEvent{};
+ 	float kernelTime = 0.0f;
+ 	cudaEvent_t startEvent{}, stopEvent{};
 
 protected:
 	size_t threadsPerBlock;
@@ -24,8 +24,10 @@ public:
 
 	void copyInput(const Matrix& matrix) override;
 	void transpose() override;
+
 	void synchronize() override;
-	//double getTime() override { return kernelTime; }
+	
+	float getKernelTime() const { return kernelTime; }
 
 protected:
 	virtual void launchKernel() = 0;
