@@ -85,6 +85,7 @@
     <ClInclude Include="BenchmarkManager.h" />
     <ClInclude Include="CpuMultiThreadTransposer.h" />
     <ClInclude Include="CpuSingleThreadTransposer.h" />
+    <ClInclude Include="CudaNaiveTransposer.h" />
     <ClInclude Include="CudaTransposer.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MatrixTransposer.h" />
@@ -93,7 +94,12 @@
     <ClCompile Include="BenchmarkManager.cpp" />
     <ClCompile Include="CpuMultiThreadTransposer.cpp" />
     <ClCompile Include="CpuSingleThreadTransposer.cpp" />
-    <ClCompile Include="CudaTransposer.cu" />
+    <CudaCompile Include="CudaNaiveTransposer.cu">
+      <FileType>Document</FileType>
+    </CudaCompile>
+    <CudaCompile Include="CudaTransposer.cu">
+      <FileType>Document</FileType>
+    </CudaCompile>
     <ClCompile Include="MatrixTransposer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

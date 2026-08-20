@@ -8,17 +8,21 @@ class CudaTransposer : public MatrixTransposer
 	cudaEvent_t startEvent{}, stopEvent{};
 
 protected:
+	size_t threadsPerBlock;
+		
 	float* d_input = nullptr;
 	float* d_output = nullptr;
 	cudaStream_t stream{};
 
 public:
-	CudaTransposer(const std::string& name);
+	static constexpr size_t DEFAULT_THREADS_PER_BLOCK = 16;
+
+	CudaTransposer(const std::string& name, size_t threadsPerBlock);
 	~CudaTransposer() override;
 
 	void copyInput(const Matrix& matrix) override;
 	void transpose() override;
-	double getTime() override { return kernelTime; }
+	//double getTime() override { return kernelTime; }
 
 protected:
 	virtual void launchKernel() = 0;

@@ -1,7 +1,7 @@
 #include "CudaTransposer.h"
 #include <stdexcept>
 
-CudaTransposer::CudaTransposer(const std::string& name) : MatrixTransposer(name)
+CudaTransposer::CudaTransposer(const std::string& name, size_t threadsPerBlock) : MatrixTransposer(name), threadsPerBlock(threadsPerBlock)
 {
 	try 
 	{

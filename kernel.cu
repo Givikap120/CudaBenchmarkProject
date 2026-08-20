@@ -4,6 +4,7 @@
 
 #include "CpuSingleThreadTransposer.h"
 #include "CpuMultiThreadTransposer.h"
+#include "CudaNaiveTransposer.h"
 
 std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 {
@@ -11,6 +12,7 @@ std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 
 	result.emplace_back(std::make_unique<CpuSingleThreadTransposer>());
 	result.emplace_back(std::make_unique<CpuMultiThreadTransposer>(16));
+	result.emplace_back(std::make_unique<CudaNaiveTransposer>());
 
 	return result;
 }
@@ -24,7 +26,7 @@ int main()
 	for (auto& transposer : transposers)
 		benchmarkManager.runRaw(*transposer);
 
-	std::cout << "Raw transpotiion:\n";
+	std::cout << "Raw transposition:\n";
 
 	for (auto& transposer : transposers)
 	{
@@ -32,7 +34,7 @@ int main()
 		std::cout << transposer->getName() << ": " << time << " ms\n";
 	}
 
-	std::cout << "\nCopied transpotiion:\n";
+	std::cout << "\nCopied transposition:\n";
 
 	for (auto& transposer : transposers)
 	{
