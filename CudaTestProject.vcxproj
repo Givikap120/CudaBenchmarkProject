@@ -80,31 +80,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Transposers\CpuMultiThreadTransposer.cpp" />
+    <ClCompile Include="Transposers\CpuSingleThreadTransposer.cpp" />
+    <ClCompile Include="Transposers\MatrixTransposer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BenchmarkManager.h" />
-    <ClInclude Include="CpuMultiThreadTransposer.h" />
-    <ClInclude Include="CpuSingleThreadTransposer.h" />
-    <ClInclude Include="CudaNaiveTransposer.h" />
-    <ClInclude Include="CudaOptimizedTransposer.h" />
-    <ClInclude Include="CudaTransposer.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="MatrixTransposer.h" />
+    <ClInclude Include="Transposers\CpuMultiThreadTransposer.h" />
+    <ClInclude Include="Transposers\CpuSingleThreadTransposer.h" />
+    <ClInclude Include="Transposers\CudaNaiveTransposer.h" />
+    <ClInclude Include="Transposers\CudaOptimizedTransposer.h" />
+    <ClInclude Include="Transposers\CudaTransposer.h" />
+    <ClInclude Include="Transposers\MatrixTransposer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BenchmarkManager.cpp" />
-    <ClCompile Include="CpuMultiThreadTransposer.cpp" />
-    <ClCompile Include="CpuSingleThreadTransposer.cpp" />
-    <CudaCompile Include="CudaNaiveTransposer.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
-    <CudaCompile Include="CudaTransposer.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
-    <CudaCompile Include="CudaOptimizedTransposer.cu">
-      <FileType>Document</FileType>
-    </CudaCompile>
-    <ClCompile Include="MatrixTransposer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="Transposers\CudaNaiveTransposer.cu" />
+    <CudaCompile Include="Transposers\CudaOptimizedTransposer.cu" />
+    <CudaCompile Include="Transposers\CudaTransposer.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,12 +1,12 @@
 ﻿#include <iostream>
 
 #include "BenchmarkManager.h"
-#include "MatrixTransposer.h"
+#include "Transposers/MatrixTransposer.h"
 
-#include "CpuSingleThreadTransposer.h"
-#include "CpuMultiThreadTransposer.h"
-#include "CudaNaiveTransposer.h"
-#include "CudaOptimizedTransposer.h"
+#include "Transposers/CpuSingleThreadTransposer.h"
+#include "Transposers/CpuMultiThreadTransposer.h"
+#include "Transposers/CudaNaiveTransposer.h"
+#include "Transposers/CudaOptimizedTransposer.h"
 
 std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 {

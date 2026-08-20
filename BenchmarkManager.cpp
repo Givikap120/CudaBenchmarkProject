@@ -1,6 +1,6 @@
 #include "BenchmarkManager.h"
-#include "MatrixTransposer.h"
-#include "CudaTransposer.h"
+#include "Transposers/MatrixTransposer.h"
+#include "Transposers/CudaTransposer.h"
 
 #include <random>
 #include <chrono>
