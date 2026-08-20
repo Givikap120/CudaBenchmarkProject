@@ -3,12 +3,14 @@
 #include "MatrixTransposer.h"
 
 #include "CpuSingleThreadTransposer.h"
+#include "CpuMultiThreadTransposer.h"
 
 std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 {
 	std::vector<std::unique_ptr<MatrixTransposer>> result;
 
 	result.emplace_back(std::make_unique<CpuSingleThreadTransposer>());
+	result.emplace_back(std::make_unique<CpuMultiThreadTransposer>(16));
 
 	return result;
 }
