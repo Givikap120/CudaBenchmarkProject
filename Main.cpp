@@ -22,7 +22,7 @@ std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 
 int main()
 {
-	BenchmarkManager benchmarkManager(100, 1024, 1024);
+	BenchmarkManager benchmarkManager(1000, 1024, 1024);
 	std::vector<std::unique_ptr<MatrixTransposer>> transposers = getTransposers();
 
 	// Warm up
