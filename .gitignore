@@ -1,0 +1,114 @@
+# =========================
+# Visual Studio
+# =========================
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio database / cache
+*.VC.db
+*.VC.VC.opendb
+*.opendb
+*.sdf
+
+# =========================
+# Build output
+# =========================
+
+Debug/
+Release/
+x64/
+x86/
+Win32/
+
+bin/
+obj/
+build/
+out/
+
+# Common nested Visual Studio outputs
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+**/Win32/
+
+# =========================
+# C / C++
+# =========================
+
+*.obj
+*.o
+*.lo
+
+*.exe
+*.dll
+*.so
+*.dylib
+
+*.lib
+*.a
+*.exp
+
+*.pdb
+*.idb
+*.ilk
+*.ipdb
+*.iobj
+
+*.pch
+
+# =========================
+# CUDA
+# =========================
+
+*.cubin
+*.ptx
+*.fatbin
+
+# CUDA intermediate files
+*.cu.obj
+*.cu.o
+
+# Nsight / CUDA profiling output
+*.nsight-cuprof-report
+*.ncu-rep
+*.qdrep
+*.nvvp
+
+# =========================
+# CMake
+# =========================
+
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+compile_commands.json
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp
+*.log
+
+*.bak
+*.swp
+*.swo
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# =========================
+# IDE/editor extras
+# =========================
+
+.vscode/
+.idea/
