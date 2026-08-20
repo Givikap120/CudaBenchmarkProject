@@ -5,6 +5,7 @@
 #include "CpuSingleThreadTransposer.h"
 #include "CpuMultiThreadTransposer.h"
 #include "CudaNaiveTransposer.h"
+#include "CudaOptimizedTransposer.h"
 
 std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 {
@@ -13,6 +14,7 @@ std::vector<std::unique_ptr<MatrixTransposer>> getTransposers()
 	result.emplace_back(std::make_unique<CpuSingleThreadTransposer>());
 	result.emplace_back(std::make_unique<CpuMultiThreadTransposer>(16));
 	result.emplace_back(std::make_unique<CudaNaiveTransposer>());
+	result.emplace_back(std::make_unique<CudaOptimizedTransposer>());
 
 	return result;
 }

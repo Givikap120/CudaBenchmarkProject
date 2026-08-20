@@ -86,6 +86,7 @@
     <ClInclude Include="CpuMultiThreadTransposer.h" />
     <ClInclude Include="CpuSingleThreadTransposer.h" />
     <ClInclude Include="CudaNaiveTransposer.h" />
+    <ClInclude Include="CudaOptimizedTransposer.h" />
     <ClInclude Include="CudaTransposer.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MatrixTransposer.h" />
@@ -98,6 +99,9 @@
       <FileType>Document</FileType>
     </CudaCompile>
     <CudaCompile Include="CudaTransposer.cu">
+      <FileType>Document</FileType>
+    </CudaCompile>
+    <CudaCompile Include="CudaOptimizedTransposer.cu">
       <FileType>Document</FileType>
     </CudaCompile>
     <ClCompile Include="MatrixTransposer.cpp" />

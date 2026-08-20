@@ -1,6 +1,7 @@
 #pragma once
 #include "MatrixTransposer.h"
 #include <cuda_runtime.h>
+#include <device_launch_parameters.h>
 
 class CudaTransposer : public MatrixTransposer
 {
@@ -15,7 +16,7 @@ protected:
 	cudaStream_t stream{};
 
 public:
-	static constexpr size_t DEFAULT_THREADS_PER_BLOCK = 16;
+	static constexpr size_t DEFAULT_THREADS_PER_BLOCK = 256;
 
 	CudaTransposer(const std::string& name, size_t threadsPerBlock);
 	~CudaTransposer() override;
