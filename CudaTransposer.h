@@ -22,6 +22,7 @@ public:
 
 	void copyInput(const Matrix& matrix) override;
 	void transpose() override;
+	void synchronize() override;
 	//double getTime() override { return kernelTime; }
 
 protected:

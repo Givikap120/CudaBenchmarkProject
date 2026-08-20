@@ -42,16 +42,17 @@ void CudaTransposer::transpose()
 {
 	size_t matrixSize = output.data.size() * sizeof(float);
 
-	// Calculate
 	cudaCheck(cudaEventRecord(startEvent, stream));
 	launchKernel();
 	cudaCheck(cudaGetLastError());
 	cudaCheck(cudaEventRecord(stopEvent, stream));
 	cudaCheck(cudaEventSynchronize(stopEvent));
 	cudaCheck(cudaEventElapsedTime(&kernelTime, startEvent, stopEvent));
-
-	// Copy result back to host
 	cudaCheck(cudaMemcpyAsync(output.data.data(), d_output, matrixSize, cudaMemcpyDeviceToHost, stream));
+}
+
+void CudaTransposer::synchronize()
+{
 	cudaCheck(cudaStreamSynchronize(stream));
 }
 

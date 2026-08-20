@@ -16,6 +16,7 @@ public:
 
 	virtual void copyInput(const Matrix& matrix);
 	virtual void transpose() = 0;
+	virtual void synchronize() {}
 	virtual double getTime();
 
 	const std::string& getName() const { return name; }

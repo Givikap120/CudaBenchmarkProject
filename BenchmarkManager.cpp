@@ -22,11 +22,13 @@ Matrix BenchmarkManager::generateMatrix(size_t rows, size_t cols)
 double BenchmarkManager::runRaw(MatrixTransposer& transposer)
 {
 	transposer.copyInput(matrix);
+	transposer.synchronize();
 	double time = transposer.getTime();
 
 	for (int i = 0; i < iterations; ++i)
 	{
 		transposer.transpose();
+		transposer.synchronize();
 	}
 
 	return (transposer.getTime() - time) / iterations;
@@ -40,6 +42,7 @@ double BenchmarkManager::runWithCopy(MatrixTransposer& transposer)
 	{
 		transposer.copyInput(matrix);
 		transposer.transpose();
+		transposer.synchronize();
 	}
 
 	return (transposer.getTime() - time) / iterations;
