@@ -4,8 +4,8 @@
 
 class CudaTransposer : public MatrixTransposer
 {
-	float kernelTime = 0.0f;
-	cudaEvent_t startEvent{}, stopEvent{};
+// 	float kernelTime = 0.0f;
+// 	cudaEvent_t startEvent{}, stopEvent{};
 
 protected:
 	size_t threadsPerBlock;
