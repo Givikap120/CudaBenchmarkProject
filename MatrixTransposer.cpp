@@ -4,6 +4,7 @@
 void MatrixTransposer::copyInput(const Matrix& matrix)
 {
 	input = matrix;
+	output = Matrix(matrix.cols, matrix.rows);
 }
 
 double MatrixTransposer::getTime()

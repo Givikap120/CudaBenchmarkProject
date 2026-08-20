@@ -5,6 +5,7 @@
 
 class MatrixTransposer
 {
+protected:
 	Matrix input, output;
 	std::string name;
 
