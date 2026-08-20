@@ -10,6 +10,7 @@ class CudaTransposer : public MatrixTransposer
 
 protected:
 	size_t threadsPerBlock;
+	size_t allocatedSize = 0;
 		
 	float* d_input = nullptr;
 	float* d_output = nullptr;

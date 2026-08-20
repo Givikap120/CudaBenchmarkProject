@@ -23,19 +23,25 @@ CudaTransposer::~CudaTransposer()
 
 void CudaTransposer::copyInput(const Matrix& matrix)
 {
-	size_t matrixSize = matrix.rows * matrix.cols * sizeof(float);
+	size_t size = matrix.rows * matrix.cols * sizeof(float);
 
-	if (d_input) cudaFree(d_input);
-	if (d_output) cudaFree(d_output);
+	if (size != allocatedSize)
+	{
+		if (d_input)
+			cudaCheck(cudaFree(d_input));
 
-	cudaCheck(cudaMalloc(&d_input, matrixSize));
-	cudaCheck(cudaMalloc(&d_output, matrixSize));
-	cudaCheck(cudaMemcpyAsync(d_input, matrix.data.data(), matrixSize, cudaMemcpyHostToDevice, stream));
+		if (d_output)
+			cudaCheck(cudaFree(d_output));
+
+		cudaCheck(cudaMalloc(&d_input, size));
+		cudaCheck(cudaMalloc(&d_output, size));
+
+		allocatedSize = size;
+	}
+
+	cudaCheck(cudaMemcpyAsync(d_input, matrix.data.data(), size, cudaMemcpyHostToDevice, stream));
 
 	output = Matrix(matrix.cols, matrix.rows);
-
-	// The immediate synchronization is not needed
-	// cudaCheck(cudaStreamSynchronize(stream));
 }
 
 void CudaTransposer::transpose()
