@@ -1,8 +1,10 @@
 #include "BenchmarkManager.h"
 #include "MatrixTransposer.h"
+#include "CudaTransposer.h"
 
 #include <random>
 #include <chrono>
+#include <iostream>
 
 BenchmarkManager::BenchmarkManager(int iterations, size_t rows, size_t cols) : iterations(iterations), matrix(generateMatrix(rows, cols))
 {}
@@ -26,32 +28,66 @@ static double getTime()
 	return std::chrono::duration<double, std::milli>(time.time_since_epoch()).count();
 }
 
-double BenchmarkManager::runRaw(MatrixTransposer& transposer)
+static void printTransposerInfo(const MatrixTransposer* transposer, double executionTime, double kernelTime)
 {
-	transposer.copyInput(matrix);
-	transposer.synchronize();
+	std::cout << transposer->getName() << ": " << executionTime << " ms";
 
-	double time = getTime();
+	if (kernelTime >= 0)
+		std::cout << " (kernel time: " << kernelTime << " ms)";
 
-	for (int i = 0; i < iterations; ++i)
-	{
-		transposer.transpose();
-		transposer.synchronize();
-	}
-
-	return (getTime() - time) / iterations;
+	std::cout << '\n';
 }
 
-double BenchmarkManager::runWithCopy(MatrixTransposer& transposer)
+void BenchmarkManager::runRaw(MatrixTransposer* transposer, bool log)
 {
-	double time = getTime();
+	auto setupFunc = [this](MatrixTransposer* transposer)
+		{
+			transposer->copyInput(matrix);
+			transposer->synchronize();
+		};
+
+	auto runFunc = [](MatrixTransposer* transposer)
+		{
+			transposer->transpose();
+			transposer->synchronize();
+		};
+
+	runInternal(transposer, setupFunc, runFunc, log);
+}
+
+void BenchmarkManager::runWithCopy(MatrixTransposer* transposer, bool log)
+{
+	auto setupFunc = [](MatrixTransposer* transposer) {};
+
+	auto runFunc = [this](MatrixTransposer* transposer)
+		{
+			transposer->copyInput(matrix);
+			transposer->transpose();
+			transposer->synchronize();
+		};
+
+	runInternal(transposer, setupFunc, runFunc, log);
+}
+
+void BenchmarkManager::runInternal(MatrixTransposer* transposer, std::function<void(MatrixTransposer*)> setupFunc, std::function<void(MatrixTransposer*)> runFunc, bool log)
+{
+	auto cudaTransposer = dynamic_cast<CudaTransposer*>(transposer);
+
+	setupFunc(transposer);
+
+	double startTime = getTime();
+	double kernelTimeCumulative = 0.0;
 
 	for (int i = 0; i < iterations; ++i)
 	{
-		transposer.copyInput(matrix);
-		transposer.transpose();
-		transposer.synchronize();
+		runFunc(transposer);
+
+		if (cudaTransposer)
+			kernelTimeCumulative += cudaTransposer->getKernelTime();
 	}
 
-	return (getTime() - time) / iterations;
+	double executionTime = (getTime() - startTime) / iterations;
+	double kernelTime = cudaTransposer ? kernelTimeCumulative / iterations : -1;
+
+	if (log) printTransposerInfo(transposer, executionTime, kernelTime);
 }

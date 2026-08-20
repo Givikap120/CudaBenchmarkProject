@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Matrix.h"
+#include <functional>
 
 class MatrixTransposer;
 
@@ -15,7 +16,10 @@ public:
 
 	int getIterations() const { return iterations; }
 
-	double runRaw(MatrixTransposer& transposer);
-	double runWithCopy(MatrixTransposer& transposer);
+	void runRaw(MatrixTransposer* transposer, bool log = true);
+	void runWithCopy(MatrixTransposer* transposer, bool log = true);
+
+private:
+	void runInternal(MatrixTransposer* transposer, std::function<void(MatrixTransposer*)> setupFunc, std::function<void(MatrixTransposer*)> runFunc, bool log);
 };
 
